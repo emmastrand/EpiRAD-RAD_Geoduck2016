@@ -1,5 +1,5 @@
 # EpiRAD-RAD_Geoduck2016
-Experimental design, field work: Dr. Hollie Putnam, Dr. Steven Roberts
+Experimental design, field work: Dr. Hollie Putnam, Dr. Steven Roberts  
 Data Analysis: Emma Strand, Dr. Hollie Putnam
 
 Project summary, experimental design, raw data, annotated bioinformatic pipeline notes, and final data analysis can be found in this repository. 
