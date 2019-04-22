@@ -1,15 +1,21 @@
-## Background Information
+# Background Information
+Author: Emma Strand  
+Last edited: 20190422
 
-dDocent 
+##dDocent 
 
-EpiRADseq
+##EpiRADseq
 
-RADseq
 
-FASTA files
 
-FASTQ files
 
-SAM/BAM format
+##RADseq
 
-VCF format 
+## Data File Formats
+###FASTA files
+
+###FASTQ files
+
+###SAM/BAM format
+
+###VCF format 

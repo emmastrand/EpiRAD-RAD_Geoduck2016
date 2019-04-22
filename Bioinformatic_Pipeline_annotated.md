@@ -69,7 +69,9 @@ Double check with HP to see if R1 and R2 need to be combined.
 
 ### 3. Demultiplexing Data Files
 
-**Separating species?**
+**Separating species?**  
+**Separating RAD and EpiRAD?**  
+What does each file have on it currently?
 
 **Converting files to .fq.gz format for dDocent.**
 
@@ -84,4 +86,5 @@ $ dDocent
 
 > dDocent is a bioinformatics program created by [Dr. Jon Purtiz](https://github.com/jpuritz) that is specifically designed for different types of RAD sequencing. See the [Background Information](https://github.com/emmastrand/EpiRAD-RAD_Geoduck2016/blob/master/Background_Information.md) file in this repository for more information.
 
+### Subtracting RADseq reads from EpiRADseq reads ?
 
