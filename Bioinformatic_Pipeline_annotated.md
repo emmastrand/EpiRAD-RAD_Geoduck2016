@@ -8,7 +8,11 @@ Data upload and analyzed on KITT (Dr. Jon Puritz).
 
 Creating a directory for this project:  
 
-`mkdir Final_Project`
+```
+mkdir Final_Project
+```
+
+
 
 
 
