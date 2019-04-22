@@ -67,9 +67,13 @@ $ md5sum -c checksums.md5
 **Combining split files??**  
 Double check with HP to see if R1 and R2 need to be combined.
 
+**FASTQC**  
+**Multiqc**
+
 ### 3. Demultiplexing Data Files
 
 **Separating species?**  
+**Separting individuals**  
 **Separating RAD and EpiRAD?**  
 What does each file have on it currently?
 
