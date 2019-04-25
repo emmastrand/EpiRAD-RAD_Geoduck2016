@@ -1,0 +1,4 @@
+Geo29-Epi	TGCAT
+Geo29-dd	AAGGA
+Geo35-dd	CGATC
+Geo35-Epi	GGTTG

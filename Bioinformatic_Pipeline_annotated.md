@@ -3,7 +3,7 @@
 Author: Emma Strand  
 Last Edited: 20190422
 
-Data upload and analyzed on KITT.
+Data upload and analyzed on KITT. User logged in before following steps are completed. 
 ## Using Terminal
 ### 1. Set-Up (downloading software programs, creating folders, and uploading raw data)
 
@@ -33,8 +33,10 @@ $ cat .condarc
 **Create and activate an environment in conda**  
 
 ```
-$ conda create -n Final_Project
-$ conda activate Final_Project
+$ conda create -n Geoduck_EpiRAD
+$ conda activate Geoduck_EpiRAD
+
+# the beginning of the line should then look like: (Geoduck_EpiRAD) [estrand@KITT ~]$
 ```
 
 **Creating and entering a directory for this project** 
@@ -42,14 +44,20 @@ $ conda activate Final_Project
 ```
 $ mkdir Final_Project # creates a directory
 $ cd Final_Project # navigates into this new directory
+
+# the beginning of the line should now look like: (Geoduck_EpiRAD) [estrand@KITT Final_Project]$
 ```
 
 **Copying raw data files to directory on KITT**
 
 ```
-$ scp -P XXXX /home/emmastrand/MyProjects/EpiRAD-RAD_Geoduck2016/Raw_Data/* .
+# See Raw_Data folder on EpiRAD-RAD_Geoduck2016 repository for contents (multiplexed files, barcode files, and checksums.md5 file).
+# Open a new terminal window to complete this step outside of KITT. 
+
+$ scp -r -P XXXX /Users/emmastrand/MyProjects/EpiRAD-RAD_Geoduck2016/Raw_Data/ estrand@kitt.uri.edu:/home/estrand/Final_Project  
+$ cd Raw_Data/
 # XXXX above indicates the password specific for our lab's KITT.
-# scp = secure copy 
+# scp = secure copy, -r = indicates copying a folder/repository 
 ```
 
 ### 2. Checking Quality of Raw Data
@@ -58,9 +66,28 @@ $ scp -P XXXX /home/emmastrand/MyProjects/EpiRAD-RAD_Geoduck2016/Raw_Data/* .
 
 ```
 $ md5sum *.fastq.gz > kitt_checksums.md5 # the checksums for the data files downloaded on kitt
-$ cksum checksums.md5 kitt_checksums.md5 # comparing the checksums 
+$ cksum checksums.md5 kitt_checksums.md5 # comparing the checksum values 
+output:
+1642783302 40242 checksums.md5
+1841263422 938 kitt_checksums.md5
+
 $ md5sum -c kitt_checksums.md5
-$ md5sum -c checksums.md5 
+
+output:
+JD002A_S131_L005_R1_001.fastq.gz: OK
+JD002A_S131_L005_R2_001.fastq.gz: OK
+JD002D_S134_L005_R1_001.fastq.gz: OK
+JD002D_S134_L005_R2_001.fastq.gz: OK
+JD002G_S137_L005_R1_001.fastq.gz: OK
+JD002G_S137_L005_R2_001.fastq.gz: OK
+JD002H_S138_L005_R1_001.fastq.gz: OK
+JD002H_S138_L005_R2_001.fastq.gz: OK
+JD002I_S139_L005_R1_001.fastq.gz: OK
+JD002I_S139_L005_R2_001.fastq.gz: OK
+JD002K_S141_L005_R1_001.fastq.gz: OK
+JD002K_S141_L005_R2_001.fastq.gz: OK
+JD002L_S142_L005_R1_001.fastq.gz: OK
+JD002L_S142_L005_R2_001.fastq.gz: OK 
 ```
 > Calculating a md5sum is a way of checking file integrity. In other words, confirming that two files contain the same information and that data wasn't lost in the downloading process.
 
@@ -91,28 +118,82 @@ Each library contains multiple species and both EpiRADseq and ddRADseq reads for
 
 > Demultiplexing refers to the step in processing where you use barcode information to identify which sequences came from what sample after multiple samples are sequenced together. Barcodes refer to the unqiue sequence that were added to each sample before all the samples are mixed together ([Happy Belly Bioinformatics](https://astrobiomike.github.io/amplicon/demultiplexing)).
 
-Using trimmomatic or iPyrad?
+#### Using the program [STACKS](http://catchenlab.life.illinois.edu/stacks/):  
+The following commands are already installed on the system. See the above STACKS link for more information.  
+See the [Raw_Data](https://github.com/emmastrand/EpiRAD-RAD_Geoduck2016/tree/master/Raw_Data) folder on github for barcode file format. Each library needs a separate barcodes file.
 
-**Adding barcode file to data folder** 
-
-```
-```
-**Separating samples by barcode**
+**Turning barcode files into a list of barcodes**
 
 ```
+# the -f2 command selects the second column of the file
+
+$ cut -f2 LibraryA_barcodes.txt > barcodes_A
+$ cut -f2 LibraryD_barcodes.txt > barcodes_D
+$ cut -f2 LibraryG_barcodes.txt > barcodes_G
+$ cut -f2 LibraryH_barcodes.txt > barcodes_H
+$ cut -f2 LibraryI_barcodes.txt > barcodes_I
+$ cut -f2 LibraryK_barcodes.txt > barcodes_K
+$ cut -f2 LibraryL_barcodes.txt > barcodes_L
+
+# To view the new barcodes file 
+$ head barcodes_A
 ```
 
-**Removing Illumina indices from sequences**
+**Using the function radtags to demultiplex each file**
 
 ```
+# Library A
+$ process_radtags -1 JD002A_S131_L005_R1_001.fastq.gz -2 JD002A_S131_L005_R2_001.fastq.gz -b barcodes_A -e PstI --renz_2 mspI -r -i gzfastq
+
+# Library D
+$ process_radtags -1 JD002D_S134_L005_R1_001.fastq.gz -2 JD002D_S134_L005_R2_001.fastq.gz -b barcodes_D -e PstI --renz_2 mspI -r -i gzfastq
+
+# Library G
+$ process_radtags -1 JD002G_S137_L005_R1_001.fastq.gz -2 JD002G_S137_L005_R2_001.fastq.gz -b barcodes_G -e PstI --renz_2 mspI -r -i gzfastq
+
+# Library H
+$ process_radtags -1 JD002H_S138_L005_R1_001.fastq.gz -2 JD002H_S138_L005_R2_001.fastq.gz -b barcodes_H -e PstI --renz_2 mspI -r -i gzfastq
+
+# Library I
+$ process_radtags -1 JD002I_S139_L005_R1_001.fastq.gz -2 JD002I_S139_L005_R2_001.fastq.gz -b barcodes_H -e PstI --renz_2 mspI -r -i gzfastq
+
+# Library K
+$ process_radtags -1 JD002K_S141_L005_R1_001.fastq.gz -2 JD002K_S141_L005_R2_001.fastq.gz -b barcodes_H -e PstI --renz_2 mspI -r -i gzfastq
+
+# Library L
+$ process_radtags -1 JD002L_S142_L005_R1_001.fastq.gz -2 JD002L_S142_L005_R2_001.fastq.gz -b barcodes_H -e PstI --renz_2 mspI -r -i gzfastq
+```
+`-e	 PstI` = which 5' restriction site was used.  
+`--renz_2 mspI` = which 3' restriction site was used. Both mspI and HpaII at the same restriction site so either will work here.  
+`-r` tells radtags to fix cut sites/barcodes that have up to 1-2 mutations in them.  
+`-i gzfastq` = format of the sequence
+
+```
+output:
+
 ```
 
-**Converting files to .fq.gz format for dDocent.**
+
+**Renaming and converting files to .fq.gz format for dDocent**
 
 ```
-```
+# download renaming script from J. Puritz 
+$ curl -L -O https://github.com/jpuritz/dDocent/raw/master/Rename_for_dDocent.sh
 
-Create RAD and EpiRAD folders?? Analyze separately aka run dDocent twice?
+# run the downloaded bash script 
+$ bash Rename_for_dDocent.sh barcodes_A
+$ bash Rename_for_dDocent.sh barcodes_D
+$ bash Rename_for_dDocent.sh barcodes_G
+$ bash Rename_for_dDocent.sh barcodes_H
+$ bash Rename_for_dDocent.sh barcodes_I
+$ bash Rename_for_dDocent.sh barcodes_K
+$ bash Rename_for_dDocent.sh barcodes_L
+
+# view the renamed data files 
+# Should be 40 total files: 10 individual geoducks with 2 EpiRAD files and 2 RAD files.  
+# Each EpiRAD and RAD for each geoduck should have a forward (F) and reverse (R) sequence.
+$ ls *.fq.gz
+```
 
 ### 4. Quality Filtering, *De Novo* Assembly, Read Mapping, SNP Calling, and SNP Filtering
 
@@ -503,3 +584,17 @@ $ SNP.TRSdp5p05FHWE.recode.vcf final_SNPs.vcf
 
 ### Subtracting RADseq reads from EpiRADseq reads 
 
+**Separating Epi and ddRAD into two .vcf files**
+
+```
+```
+
+**Identifying loci with 0 reads in ddRAD set** 
+
+```
+```
+
+**Removing those loci from EpiRAD set**
+
+```
+```
