@@ -100,7 +100,7 @@ $ conda install -c bioconda fastqc
 $ fastqc ../*fastq.gz .
 $ mv *fastqc.* fastqc_results/
 ```
-> FastQC is a program designed to visualize the quality of high throughput sequencing datasets. The report will highlight any areas where the data looks unsual or unreliable.
+> [FastQC](https://dnacore.missouri.edu/PDF/FastQC_Manual.pdf) is a program designed to visualize the quality of high throughput sequencing datasets. The report will highlight any areas where the data looks unsual or unreliable.
 
 **Multiqc Analysis**
 
