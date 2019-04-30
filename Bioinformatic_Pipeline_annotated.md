@@ -91,6 +91,47 @@ JD002L_S142_L005_R2_001.fastq.gz: OK
 ```
 > Calculating a md5sum is a way of checking file integrity. In other words, confirming that two files contain the same information and that data wasn't lost in the downloading process.
 
+**Converting files from ASCII text format to gzip compressed data**  
+Files downloaded from shared drive were originally in ASCII text format, but needed to be converted to gzip compressed format.  
+
+```
+# to check the format of a file 
+$ file JD002A_S131_L005_R1_001.fastq.gz
+output: 
+JD002A_S131_L005_R2_001.fastq.gz: ASCII text
+
+# removing the ".gz" at the end of each file name 
+$ for f in JD*
+> do mv $f ${f%%\.gz}
+> done
+
+# compressing each data file 
+$ for f in JD*
+> do gzip $f
+> done
+
+# checking file formats for each file 
+$ for f in JD*
+> do file $f 
+> done
+
+output:
+JD002A_S131_L005_R1_001.fastq.gz: gzip compressed data, was "JD002A_S131_L005_R1_001.fastq", from Unix, last modified: Fri Apr 26 09:26:00 2019
+JD002A_S131_L005_R2_001.fastq.gz: gzip compressed data, was "JD002A_S131_L005_R2_001.fastq", from Unix, last modified: Fri Apr 26 09:25:58 2019
+JD002D_S134_L005_R1_001.fastq.gz: gzip compressed data, was "JD002D_S134_L005_R1_001.fastq", from Unix, last modified: Fri Apr 26 09:25:59 2019
+JD002D_S134_L005_R2_001.fastq.gz: gzip compressed data, was "JD002D_S134_L005_R2_001.fastq", from Unix, last modified: Fri Apr 26 09:25:58 2019
+JD002G_S137_L005_R1_001.fastq.gz: gzip compressed data, was "JD002G_S137_L005_R1_001.fastq", from Unix, last modified: Fri Apr 26 09:26:00 2019
+JD002G_S137_L005_R2_001.fastq.gz: gzip compressed data, was "JD002G_S137_L005_R2_001.fastq", from Unix, last modified: Fri Apr 26 09:25:58 2019
+JD002H_S138_L005_R1_001.fastq.gz: gzip compressed data, was "JD002H_S138_L005_R1_001.fastq", from Unix, last modified: Fri Apr 26 09:26:00 2019
+JD002H_S138_L005_R2_001.fastq.gz: gzip compressed data, was "JD002H_S138_L005_R2_001.fastq", from Unix, last modified: Fri Apr 26 09:25:58 2019
+JD002I_S139_L005_R1_001.fastq.gz: gzip compressed data, was "JD002I_S139_L005_R1_001.fastq", from Unix, last modified: Fri Apr 26 09:25:59 2019
+JD002I_S139_L005_R2_001.fastq.gz: gzip compressed data, was "JD002I_S139_L005_R2_001.fastq", from Unix, last modified: Fri Apr 26 09:25:59 2019
+JD002K_S141_L005_R1_001.fastq.gz: gzip compressed data, was "JD002K_S141_L005_R1_001.fastq", from Unix, last modified: Fri Apr 26 09:25:59 2019
+JD002K_S141_L005_R2_001.fastq.gz: gzip compressed data, was "JD002K_S141_L005_R2_001.fastq", from Unix, last modified: Fri Apr 26 09:25:59 2019
+JD002L_S142_L005_R1_001.fastq.gz: gzip compressed data, was "JD002L_S142_L005_R1_001.fastq", from Unix, last modified: Fri Apr 26 09:26:00 2019
+JD002L_S142_L005_R2_001.fastq.gz: gzip compressed data, was "JD002L_S142_L005_R2_001.fastq", from Unix, last modified: Fri Apr 26 09:25:59 2019
+```
+
 **FastQC Analysis**  
 
 ```
@@ -98,7 +139,7 @@ $ mkdir fastqc_results
 $ cd fastqc_results
 $ conda install -c bioconda fastqc
 $ fastqc ../*fastq.gz .
-$ mv *fastqc.* fastqc_results/
+$ mv *fastqc.* fastqc_results/ # moves fastqc files to fastqc directory 
 ```
 > [FastQC](https://dnacore.missouri.edu/PDF/FastQC_Manual.pdf) is a program designed to visualize the quality of high throughput sequencing datasets. The report will highlight any areas where the data looks unsual or unreliable.
 
@@ -107,7 +148,14 @@ $ mv *fastqc.* fastqc_results/
 ```
 $ conda install -c bioconda multiqc
 $ multiqc .
-$ scp -P XXXX x@kitt.uri.edu:/home/estrand/Final_Project/fastqc_results/mutliqc_report.html ~/Users/emmastrand/MyProjects/EpiRAD-RAD_Geoduck2016
+
+# copy fastqc and multiqc files to directory outside of KITT
+# run the following commands outside of KITT
+$ scp -r -P XXXX x@kitt.uri.edu:/home/estrand/Final_Project/Raw_Data/fastqc_results/ /Users/emmastrand/MyProjects/EpiRAD-RAD_Geoduck2016/Raw_Data
+
+# open multiqc_report to view the quality of raw, multiplexed data files
+$ mv multiqc_report.html multiplexed_multiqc_report.html # rename file
+
 ```
 > Multiqc creates a single report from the FastQC results.
 
