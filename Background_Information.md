@@ -21,9 +21,26 @@ Last edited: 20190422
 ###VCF format 
 
 ## Multiqc Results
+Reading a Multiqc report: [Using MultiQC Reports Video](https://www.youtube.com/watch?v=qPbIlO_KWN0).
 
 #### General Statistics Table
+The key statistical data presented in this table will be variable depending on what kind of data is being analyzed and what programs were used. See [Multiqc](https://multiqc.info/). Samples will be aligned on the left to be easily comparable. 
 
+![General_stats](https://github.com/emmastrand/EpiRAD-RAD_Geoduck2016/blob/master/_images/General_stats.png?raw=true)
+
+Options shown above:  
+% Dups = Percentage of duplicate reads.   
+% GC = Average percentage of GC content  
+M Seqs = Total number of sequences (millions)
+
+Additional options:  
+Length = Average sequence length (basepairs)  
+% mCpG = percentage of cytosines methylated in CpG content (using Bismark)  
+M C's = Total number of C's analyzed in millions (using Bismark)  
+% Aligned = percentage aligned   
+% Trimmed = percentage of total base pairs trimmed (using CutAdapt)
+
+#### 
 
 ## Read Mapping
 
