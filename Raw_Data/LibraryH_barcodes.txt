@@ -1,4 +1,0 @@
-Geo32-Epi	CAACC
-Geo32-dd	TCGAT
-Geo60-Epi	CGATC
-Geo60-dd	GGTTG

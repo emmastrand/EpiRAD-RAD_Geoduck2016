@@ -1,4 +1,0 @@
-Geo4-Epi	TGCAT
-Geo4-dd		AAGGA
-Geo4-Epi	CAACC
-Geo4-dd		TCGAT
