@@ -394,12 +394,16 @@ There should be 40 total files: 10 individual geoducks with 2 EpiRAD files and 2
 **Counting raw reads for each file**
 
 ```
-$ echo $(zcat *.fastq.gz|wc -l)/4|bc
+$ for i in *.F.fq.gz *.R.fq.gz 
+> do print echo $(zcat $i|wc -l)/4|bc > Raw_Reads.txt
+> done
+
+echo $(zcat *.F.fq.gz *.R.fq.gz|wc -l)/4|bc
 
 output:
 
 ```
-> Each read in a fastq file has 4 lines: 1. identifier 2. sequence 3. description that starts with "+" 4. quality for each base in the second line. Raw reads can be counted by calculating the number of lines in the file and dividing by 4. `echo	` is used to start an argument and writes the argument as a standard output.`zcat` is used for zipped files. 
+> Each read in a fastq file has 4 lines: 1. identifier 2. sequence 3. description that starts with "+" 4. quality for each base in the second line. Raw reads can be counted by calculating the number of lines in the file and dividing by 4. `echo	` is used to start an argument and writes the argument as a standard output.`zcat` is used for zipped files. `bc` is used for calculations.
 
 **Checking the quality of data post-demultiplexing**
 
@@ -469,6 +473,8 @@ $ 0
 ```
 **Quality Trimming Reads**  
 If this is the first time using dDocent on this data set, reads must be trimmed. If running dDocent on data files multiple times, reads don't need to be trimmed again.
+
+dDocent uses fastp to ____. 
 
 ```
 output:
@@ -540,10 +546,14 @@ Don't worry; dDocent has no financial need to sell your email address to spammer
 $ # enter preferred email address
 
 output:
-dDocent will require input during the assembly stage.  Please wait until prompt says it is safe to move program to the background.
-Trimming reads and simultaneously assembling reference sequences
+At this point, all configuration information has been entered and dDocent may take several hours to run.
+It is recommended that you move this script to a background operation and disable terminal input and output.
+All data and logfiles will still be recorded.
+To do this:
+Press control and Z simultaneously
+Type 'bg' without the quotes and press enter
+Type 'disown -h' again without the quotes and press enter
 ```
-Allow dDocent to run for a short time until more input is needed.
 
 > FreeBayes detects variants based on differences in haplotypes, including single nucleotide polymorphisms (SNPs; see [Background_Information](https://github.com/emmastrand/EpiRAD-RAD_Geoduck2016/blob/master/Background_Information.md)), and indels (insertions and deletions). [FreeBayes](https://hbctraining.github.io/In-depth-NGS-Data-Analysis-Course/sessionVI/lessons/02_variant-calling.html). 
 
@@ -560,274 +570,752 @@ Using FreeBayes to call SNPs
 100% 79:0=0s 56                                                                                                                                                                             
 
 Using VCFtools to parse TotalRawSNPS.vcf for SNPs that are called in at least 90% of individuals
+
+dd_Geo29.F.fq.gz:102287
+dd_Geo29.R1.fq.gz:101608
+dd_Geo29.R2.fq.gz:101608
+dd_Geo29.R.fq.gz:102287
+dd_Geo30.F.fq.gz:185855
+dd_Geo30.R1.fq.gz:183635
+dd_Geo30.R2.fq.gz:183635
+dd_Geo30.R.fq.gz:185855
+dd_Geo32.F.fq.gz:201889
+dd_Geo32.R1.fq.gz:198545
+dd_Geo32.R2.fq.gz:198545
+dd_Geo32.R.fq.gz:201889
+dd_Geo33.F.fq.gz:285472
+dd_Geo33.R1.fq.gz:278051
+dd_Geo33.R2.fq.gz:278051
+dd_Geo33.R.fq.gz:285472
+dd_Geo34.F.fq.gz:529144
+dd_Geo34.R1.fq.gz:526430
+dd_Geo34.R2.fq.gz:526430
+dd_Geo34.R.fq.gz:529144
+dd_Geo35.F.fq.gz:40100
+dd_Geo35.R1.fq.gz:39757
+dd_Geo35.R2.fq.gz:39757
+dd_Geo35.R.fq.gz:40100
+dd_Geo3.F.fq.gz:1254140
+dd_Geo3.R1.fq.gz:1244096
+dd_Geo3.R2.fq.gz:1244096
+dd_Geo3.R.fq.gz:1254140
+dd_Geo4.F.fq.gz:1678591
+dd_Geo4.R1.fq.gz:1664806
+dd_Geo4.R2.fq.gz:1664806
+dd_Geo4.R.fq.gz:1678591
+dd_Geo60.F.fq.gz:287135
+dd_Geo60.R1.fq.gz:281385
+dd_Geo60.R2.fq.gz:281385
+dd_Geo60.R.fq.gz:287135
+dd_Geo66.F.fq.gz:48197
+dd_Geo66.R1.fq.gz:47867
+dd_Geo66.R2.fq.gz:47867
+dd_Geo66.R.fq.gz:48197
+Epi_Geo29.F.fq.gz:136608
+Epi_Geo29.R1.fq.gz:135534
+Epi_Geo29.R2.fq.gz:135534
+Epi_Geo29.R.fq.gz:136608
+Epi_Geo30.F.fq.gz:173525
+Epi_Geo30.R1.fq.gz:171594
+Epi_Geo30.R2.fq.gz:171594
+Epi_Geo30.R.fq.gz:173525
+Epi_Geo32.F.fq.gz:216549
+Epi_Geo32.R1.fq.gz:212909
+Epi_Geo32.R2.fq.gz:212909
+Epi_Geo32.R.fq.gz:216549
+Epi_Geo33.F.fq.gz:340727
+Epi_Geo33.R1.fq.gz:337985
+Epi_Geo33.R2.fq.gz:337985
+Epi_Geo33.R.fq.gz:340727
+Epi_Geo34.F.fq.gz:472694
+Epi_Geo34.R1.fq.gz:470297
+Epi_Geo34.R2.fq.gz:470297
+Epi_Geo34.R.fq.gz:472694
+Epi_Geo35.F.fq.gz:41724
+Epi_Geo35.R1.fq.gz:41351
+Epi_Geo35.R2.fq.gz:41351
+Epi_Geo35.R.fq.gz:41724
+Epi_Geo3.F.fq.gz:1618046
+Epi_Geo3.R1.fq.gz:1604135
+Epi_Geo3.R2.fq.gz:1604135
+Epi_Geo3.R.fq.gz:1618046
+Epi_Geo4.F.fq.gz:1602472
+Epi_Geo4.R1.fq.gz:1589114
+Epi_Geo4.R2.fq.gz:1589114
+Epi_Geo4.R.fq.gz:1602472
+Epi_Geo60.F.fq.gz:326689
+Epi_Geo60.R1.fq.gz:321284
+Epi_Geo60.R2.fq.gz:321284
+Epi_Geo60.R.fq.gz:326689
+Epi_Geo66.F.fq.gz:50947
+Epi_Geo66.R1.fq.gz:50506
+Epi_Geo66.R2.fq.gz:50506
+Epi_Geo66.R.fq.gz:50947
 ``` 
-> See [Background_Information](https://github.com/emmastrand/EpiRAD-RAD_Geoduck2016/blob/master/Background_Information.md) for more information on Variant Call Format (VCF). 
+Name.F.fq.gz = # of SNPs in original forward sequence   
+Name.R1.fq.gz	 = # of SNPs in filtered forward seqeuence  
+Name.R.fq.gz	 = # of SNPs in original reverse sequence  
+Name.R2.fq.gz = # of SNPs in filtered reverse sequence
+ 
 
+**Using samtools to check file stats**
 
-**Preliminary Filtering SNPs**  
-Ideal cut-off values keep as much diversity in the data as possible while cutting out sequences that are likely errors. 
-
-REPLACE BELOW WITH GEODUCK DATA
+In order to decide what mapping parameters to use, we can compare percentage mapped (line 5), percentage properly paired (line 9), percentage of singletons (line 11), and number mapped to a different chromosome (line 13). A singleton refers to reads that had one of the paired end reads mapped to the genome and the other did not. "With itself and mate mapped" indicates that both reads mapped to the genome.
 
 ```
-output:
-              Number of Unique Sequences with More than X Coverage (Counted within individuals)                 
-                                                                                                                        
-  70000 +-+---------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+---------+-+   
-        +           +           +           +           +           +           +           +           +           +   
-        |                                                                                                           |   
-  60000 ******                                                                                                    +-+   
-        |     ******                                                                                                |   
-        |           ******                                                                                          |   
-        |                 ******                                                                                    |   
-  50000 +-+                     *****                                                                             +-+   
-        |                            *                                                                              |   
-        |                             ******                                                                        |   
-  40000 +-+                                 *****                                                                 +-+   
-        |                                        *                                                                  |   
-        |                                         ******                                                            |   
-  30000 +-+                                             *****                                                     +-+   
-        |                                                    *                                                      |   
-        |                                                     ******                                                |   
-  20000 +-+                                                         ******                                        +-+   
-        |                                                                 ******                                    |   
-        |                                                                       ******                              |   
-        |                                                                             ******                        |   
-  10000 +-+                                                                                 ************          +-+   
-        |                                                                                               *************   
-        +           +           +           +           +           +           +           +           +           +   
-      0 +-+---------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+---------+-+   
-        2           4           6           8           10          12          14          16          18          20  
-                                                          Coverage                                                                                                                                                                              
-Please choose data cutoff.  In essence, you are picking a minimum (within individual) coverage level for a read (allele) to be used in the reference assembly
-$ 
+# running a for loop to calculate stats on each file.
+$ for i in *.bam
+> do samtools flagstat $i > $i.txt
+> done
+$ mkdir 1_4_6_flagstats # in case I decided to go back and change the mapping parameters
+$ cd 1_4_6_flagstats
+$ cat *.txt >> 146flagstats.txt
+
+# View the stats altogether 
+$ cat 146flagstats.txt 
+
+# Or one file at a time
+$ cat dd_Geo29-RG.bam.txt
 
 output:
-                               Number of Unique Sequences present in more than X Individuals                            
-                                                                                                                        
-  5500 +-+---------+-----------+-----------+-----------+------------+-----------+-----------+-----------+---------+-+   
-       **          +           +           +           +            +           +           +           +           +   
-  5000 +-*                                                                                                        +-+   
-       |  **                                                                                                        |   
-       |    *                                                                                                       |   
-  4500 +-+                                                                                                        +-+   
-       |     ***                                                                                                    |   
-  4000 +-+      **                                                                                                +-+   
-       |          *                                                                                                 |   
-  3500 +-+         *****                                                                                          +-+   
-       |                *                                                                                           |   
-  3000 +-+               *****                                                                                    +-+   
-       |                      *                                                                                     |   
-       |                       ******                                                                               |   
-  2500 +-+                           ******                                                                       +-+   
-       |                                   *****                                                                    |   
-  2000 +-+                                      *                                                                 +-+   
-       |                                         *************                                                      |   
-  1500 +-+                                                    ******                                              +-+   
-       |                                                            ************                                    |   
-       |                                                                        ************                        |   
-  1000 +-+                                                                                  ************          +-+   
-       +           +           +           +           +            +           +           +           *************   
-   500 +-+---------+-----------+-----------+-----------+------------+-----------+-----------+-----------+---------+-+   
-       2           4           6           8           10           12          14          16          18          20  
-                                                   Number of Individuals                                                
-                                                                                                                        
-Please choose data cutoff.  Pick point right before the asymptote. A good starting cutoff might be 10% of the total number of individuals
-$
+134154 + 0 in total (QC-passed reads + QC-failed reads)
+0 + 0 secondary
+0 + 0 supplementary
+0 + 0 duplicates
+134154 + 0 mapped (100.00% : N/A)
+134154 + 0 paired in sequencing
+67511 + 0 read1
+66643 + 0 read2
+122065 + 0 properly paired (90.99% : N/A)
+133935 + 0 with itself and mate mapped
+219 + 0 singletons (0.16% : N/A)
+7173 + 0 with mate mapped to a different chr
+6596 + 0 with mate mapped to a different chr (mapQ>=5)
+
+$ cat Epi_Geo29-RG.bam.txt
 
 output:
-At this point, all configuration information has been entered and dDocent may take several hours to run.
-It is recommended that you move this script to a background operation and disable terminal input and output.
-All data and logfiles will still be recorded.
-To do this:
-Press control and Z simultaneously
-Type 'bg' without the quotes and press enter
-Type 'disown -h' again without the quotes and press enter
+174704 + 0 in total (QC-passed reads + QC-failed reads)
+0 + 0 secondary
+0 + 0 supplementary
+0 + 0 duplicates
+174704 + 0 mapped (100.00% : N/A)
+174704 + 0 paired in sequencing
+88016 + 0 read1
+86688 + 0 read2
+155537 + 0 properly paired (89.03% : N/A)
+174327 + 0 with itself and mate mapped
+377 + 0 singletons (0.22% : N/A)
+13080 + 0 with mate mapped to a different chr
+12299 + 0 with mate mapped to a different chr (mapQ>=5)
+
+$ cat dd_Geo30-RG.bam.txt
+
+output:
+248279 + 0 in total (QC-passed reads + QC-failed reads)
+0 + 0 secondary
+0 + 0 supplementary
+0 + 0 duplicates
+248279 + 0 mapped (100.00% : N/A)
+248279 + 0 paired in sequencing
+125358 + 0 read1
+122921 + 0 read2
+226069 + 0 properly paired (91.05% : N/A)
+248082 + 0 with itself and mate mapped
+197 + 0 singletons (0.08% : N/A)
+16163 + 0 with mate mapped to a different chr
+15100 + 0 with mate mapped to a different chr (mapQ>=5)
+
+$ cat Epi_Geo30-RG.bam.txt
+
+output:
+222078 + 0 in total (QC-passed reads + QC-failed reads)
+0 + 0 secondary
+0 + 0 supplementary
+0 + 0 duplicates
+222078 + 0 mapped (100.00% : N/A)
+222078 + 0 paired in sequencing
+112118 + 0 read1
+109960 + 0 read2
+191872 + 0 properly paired (86.40% : N/A)
+221881 + 0 with itself and mate mapped
+197 + 0 singletons (0.09% : N/A)
+23548 + 0 with mate mapped to a different chr
+22392 + 0 with mate mapped to a different chr (mapQ>=5)
+
+# and so on for each sample
 ```
-All settings in dDocent have been set, now just wait for the program to finish. This may take several hours. 
 
 ### 5. In-depth Filtering SNPs
-dDocent only performs preliminary filtering steps. The following steps include more in-depth filtering options.  
+dDocent only performs preliminary filtering steps. The following steps include more in-depth filtering options with [vcf tools](http://vcftools.sourceforge.net) following dDocent's [filtering tutorial](http://www.ddocent.com/filtering/). See [Background_Information](https://github.com/emmastrand/EpiRAD-RAD_Geoduck2016/blob/master/Background_Information.md) for more information on Variant Call Format (VCF). [Flag guide to VCFtools](http://vcftools.sourceforge.net/man_latest.html). 
 
 **Creating a new directory for Filtered SNPs**  
 
 ```
+$ cd ..
 $ mkdir Filtered_Data
 $ cd Filtered_Data
-$ ln -s ../TotalRawSNPs.vcf # create symbolic link in the output file from dDocent
+$ ln -s ../1mis_Demultiplexed_Data/TotalRawSNPs.vcf # create symbolic link in the output file from dDocent
 ```
 
-**Filerting by: missing data, alleles with low frequency, and alleles with low quality scores**  
-Max-missing is ____. Maf is _____. MinQ is _____. 
+**Filerting by: missing data, alleles with minor counts, and alleles with low quality scores**  
+Max-missing is filtering for missing data. 0.5 filters out genotypes that were called below 50% across individuals. In other words, this only keeps variants that were successfully genotyped in 50% of individuals. This value will be between 0 and 1.  
+
+Mac is filtering for minor allele counts. Allele count is the number of times that allele appears over all individuals at that site. 3 requires that a allele appear in 1 homozygote and 1 heterozygote OR 3 heterozygotes.    
+
+MinQ is filtering for alleles with low quality scores. 30 is set as the minimum quality score for each allele. 
 
 ```
-$ vcftools --vcf TotalRawSNPs.vcf --max-missing 0.5 --maf 0.001 --minQ 20 --recode --recode-INFO-all --out TRS
+$ vcftools --vcf TotalRawSNPs.vcf --max-missing 0.5 --mac 3 --minQ 30 --recode --recode-INFO-all --out SNPs
 
 output:
-VCFtools - 0.1.14
+VCFtools - 0.1.16
 (C) Adam Auton and Anthony Marcketta 2009
 
 Parameters as interpreted:
-        --vcf TotalRawSNPs.vcf
-        --recode-INFO-all
-        --maf 0.001
-        --minQ 20
-        --max-missing 0.5
-        --out TRS
-        --recode
+	--vcf TotalRawSNPs.vcf
+	--recode-INFO-all
+	--mac 3
+	--minQ 30
+	--max-missing 0.5
+	--out SNPs
+	--recode
 
-After filtering, kept X out of X Individuals
+#several warning messages 
+
+After filtering, kept 20 out of 20 Individuals
 Outputting VCF file...
-After filtering, kept X out of a possible X Sites
-Run Time = X seconds
+After filtering, kept 62183 out of a possible 281567 Sites
+Run Time = 28.00 seconds
 ```
-**Filter out loci with low depth**  
-minDP is _____.  
-pop\_missing\_filter.sh is _____. 
+`recode` creates a new VCF file with the filters.  
+`recode-INFO-all` keeps all the flags from the last file in the new one.  
+`--out` indicates the name of the output
+
+**Filtering by: minimum depth for genotype call and minimum mean depth**
+
+Setting a mininmum depth of 3 will only keep genotypes that have 3 amount of reads and above. 
 
 ```
-$ vcftools --vcf TRS.recode.vcf --minDP 5 --recode --recode-INFO-all --out TRSdp5
+$ vcftools --vcf SNPs.recode.vcf --minDP 3 --recode --recode-INFO-all --out SNPs_dp3
 
 output:
-VCFtools - 0.1.14
+VCFtools - 0.1.16
 (C) Adam Auton and Anthony Marcketta 2009
 
 Parameters as interpreted:
-        --vcf TRS.recode.vcf
-        --recode-INFO-all
-        --minDP 5
-        --out TRSdp5
-        --recode
+	--vcf SNPs.recode.vcf
+	--recode-INFO-all
+	--minDP 3
+	--out SNPs_dp3
+	--recode
 
-After filtering, kept X out of X Individuals
+# several warning messages 
+
+After filtering, kept 20 out of 20 Individuals
 Outputting VCF file...
-After filtering, kept X out of a possible X Sites
-Run Time = 3.00 seconds
+After filtering, kept 62183 out of a possible 62183 Sites
+Run Time = 13.00 seconds
 
-$ pop_missing_filter.sh TRSdp5.recode.vcf ../popmap 0.05 1 TRSdp5p05
+```
+> "Yes, we are keeping genotypes with as few as 3 reads. We talked about this in the lecture portion of this course, but the short answer is that sophisticated multisample variant callers like FreeBayes and GATK can confidently call genotypes with few reads because variants are assessed across all samples simultaneously. So, the genotype is based on three reads AND prior information from all reads from all individuals. Relax. We will do plenty of other filtering steps!" - dDocent  
+> See dDocent's tutorials for more information if concerned.
+
+**Evaluate potential errors**
+
+Download the following script from dDocent.
+
+```
+$ curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/ErrorCount.sh
+$ chmod +x ErrorCount.sh 
+$ ErrorCount.sh SNPs_dp3.recode.vcf
 
 output:
-After filtering, kept 80 out of 80 Individuals
+This script counts the number of potential genotyping errors due to low read depth
+It report a low range, based on a 50% binomial probability of observing the second allele in a heterozygote and a high range based on a 25% probability.
+Potential genotyping errors from genotypes from only 1 read range from 0.0 to 0.0
+Potential genotyping errors from genotypes from only 2 reads range from 0.0 to 0.0
+Potential genotyping errors from genotypes from only 3 reads range from 4817.25 to 16185.96
+Potential genotyping errors from genotypes from only 4 reads range from 1538.3125 to 7777.708
+Potential genotyping errors from genotypes from only 5 reads range from 515.34375 to 3908
+20 number of individuals and 62183 equals 1243660 total genotypes
+Total genotypes not counting missing data 958009
+Total potential error rate is between 0.0071720685818191686 and 0.029093325845581823
+SCORCHED EARTH SCENARIO
+WHAT IF ALL LOW DEPTH HOMOZYGOTE GENOTYPES ARE ERRORS?????
+The total SCORCHED EARTH error rate is 0.08313283069365737.
+
+```
+`curl` function transfers data from or to a server  
+`-L` tells curl to follow links  
+`-O` tells curl to write a file name  
+`chmod +x` changes the mode of the file and makes it executable
+
+Our error rate because of genotypes under 5 reads is under 5%. 
+
+**Filtering by: missing data from individuals**
+
+There are 2 options for this step: the following code OR a script that runs this code that can be downloaded from dDocent. See the end of this section for the dDocent script instructions. 
+
+This step filters out individuals that did not sequence well. The file generated reports the missing data on a per-individual basis. The output is an "imiss" file.
+
+```
+# creates imiss file
+$ vcftools --vcf SNPs_dp3.recode.vcf --missing-indv
+
+output:
+VCFtools - 0.1.16
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf SNPs_dp3.recode.vcf
+	--missing-indv
+
+# several warning messages 
+
+After filtering, kept 20 out of 20 Individuals
+Outputting Individual Missingness
+After filtering, kept 62183 out of a possible 62183 Sites
+Run Time = 2.00 seconds
+
+# views imiss file 
+$ cat out.imiss
+
+output:
+INDV	N_DATA	N_GENOTYPES_FILTERED	N_MISS	F_MISS
+dd_Geo29	62183	0	36624	0.588971
+dd_Geo30	62183	0	25616	0.411945
+dd_Geo32	62183	0	25561	0.411061
+dd_Geo33	62183	0	22146	0.356142
+dd_Geo34	62183	0	12933	0.207983
+dd_Geo35	62183	0	54980	0.884164
+dd_Geo3	62183	0	1908	0.0306836
+dd_Geo4	62183	0	862	0.0138623
+dd_Geo60	62183	0	22462	0.361224
+dd_Geo66	62183	0	54572	0.877603
+Epi_Geo29	62183	0	32396	0.520978
+Epi_Geo30	62183	0	29856	0.480131
+Epi_Geo32	62183	0	27228	0.437869
+Epi_Geo33	62183	0	22237	0.357606
+Epi_Geo34	62183	0	17547	0.282183
+Epi_Geo35	62183	0	57281	0.921168
+Epi_Geo3	62183	0	6255	0.10059
+Epi_Geo4	62183	0	6001	0.0965055
+Epi_Geo60	62183	0	23900	0.384349
+Epi_Geo66	62183	0	54545	0.877169
+
+```
+`F_MISS` is the frequency of missing data for that individual (N_MISS/TOTAL SITES)  
+`N_MISS` is the number of sites the individual does not have any data for
+
+The highest percentage of missing data we have is 92.1% (Epi_Geo35).
+
+To create a histogram of this data:
+
+```
+$ mawk '!/IN/' out.imiss | cut -f5 > totalmissing
+$ gnuplot << \EOF 
+> set terminal dumb size 120, 30
+> set autoscale
+> unset label
+> set title "Histogram of % missing data per individual"
+> set ylabel "Number of Occurrences"
+> set xlabel "% of missing data"
+> #set yr [0:100000]
+> binwidth=0.01
+> bin(x,width)=width*floor(x/width) + binwidth/2.0
+> plot 'totalmissing' using (bin($1,binwidth)):(1.0) smooth freq with boxes 
+> pause -1
+> EOF
+
+output:
+
+                                        Histogram of % missing data per individual
+
+    2 ++----------------+----------*****---***---------------+-----------***************----------+----------------++
+      +                 +          *   *   * *               + 'totalmissing' using (bin($1,binwidth)):(1.0) ****** +
+      |                            *   *   * *                           *             *                            |
+      |                            *   *   * *                           *             *                            |
+      |                            *   *   * *                           *             *                            |
+  1.8 ++                           *   *   * *                           *             *                           ++
+      |                            *   *   * *                           *             *                            |
+      |                            *   *   * *                           *             *                            |
+      |                            *   *   * *                           *             *                            |
+  1.6 ++                           *   *   * *                           *             *                           ++
+      |                            *   *   * *                           *             *                            |
+      |                            *   *   * *                           *             *                            |
+      |                            *   *   * *                           *             *                            |
+      |                            *   *   * *                           *             *                            |
+  1.4 ++                           *   *   * *                           *             *                           ++
+      |                            *   *   * *                           *             *                            |
+      |                            *   *   * *                           *             *                            |
+      |                            *   *   * *                           *             *                            |
+  1.2 ++                           *   *   * *                           *             *                           ++
+      |                            *   *   * *                           *             *                            |
+      |                            *   *   * *                           *             *                            |
+      |                            *   *   * *                           *             *                            |
+      +                 +          *   *   * *               +           *     +       *          +                 +
+    1 ++----------------+----------*****---***---------------+-----------***************----------+----------------++
+      0                0.2                0.4               0.6               0.8                 1                1.2
+                                                     % of missing data
+
+
+```
+*This plot wouldn't work unless in conda environment. But most of the steps previously were not done in the conda environment. Come back to this. Plot is also missing ylabel. Plot doesn't really look like the data. Come back to this.*
+
+*All samples were kept for the project (0.95 cutoff), but come back to this for publication. Could take out the samples above 70% missing data. 50% is a more conservative value, but we have sample sizes here. Come back to this.* 
+
+Filtering out the individuals with high percentage of missing data:
+
+```
+# To make a list of individuals with more than 95% missing data
+$ mawk '$5 > 0.95' out.imiss | cut -f1 > lowDP.indv
+
+# Remove these individuals from the data set 
+# adding "md" to the name of the file 
+$ vcftools --vcf SNPs_dp3.recode.vcf --remove lowDP.indv --recode --recode-INFO-all --out SNPs_dp3_md
+
+output:
+VCFtools - 0.1.17
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf SNPs_dp3.recode.vcf
+	--remove lowDP.indv
+	--recode-INFO-all
+	--out SNPs_dp3_md
+	--recode
+
+After filtering, kept 20 out of 20 Individuals
 Outputting VCF file...
-After filtering, kept 2816 out of a possible 2993 Sites
-Run Time = 3.00 seconds
+After filtering, kept 62183 out of a possible 62183 Sites
+Run Time = 6.00 seconds
 ```
 
-**Filtering by: poor allelic balance, off kilter mapping quality ratios among alleles, etc.**  
-
-What is the etc? What is dDocent doing?  
-vcfallelicprimitives is ______.
+**OR**  
+Filtering by individuals with low coverage can also be done with a script from dDocent. You only need to complete either the above code or the script from dDocent. The output will be the same.
 
 ```
-$ dDocent_filters TRSdp5p05.recode.vcf TRSdp5p05
+$ curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/filter_missing_ind.sh
+$ chmod +x filter_missing_ind.sh
+$ ./filter_missing_ind.sh (file to be filtered name) (new name prefix)
 
-output:
-                                            Histogram of mean depth per site
+output: will be a histogram like the one above. The default cut off is 85% and you will have the option to change this if you'd like.  
+Enter yes or no. 
 
-  250 +-+-+---+---+---+---+---+---+--+---+---+---+---+---+---+---+---+---+---+---+---+---+--+---+---+---+---+---+-+-+
-      +   +   +   +   +   +   +   +  +   +   +   +   +   +   +   +   +   +   +   +   +   +  +   +   +   +   +   +   +
-      |                                      *            'meandepthpersite' using (bin($1,binwidth)):(1.0) ******* |
-      |                                     ***                                                                     |
-      |                                     ***                                                                     |
-  200 +-+                                  ****                                                                   +-+
-      |                                    ****                                                                     |
-      |                                   *****                                                                     |
-      |                                   *****                                                                     |
-  150 +-+                                *******                                                                  +-+
-      |                                  *******                                                                    |
-      |                                  *******                                                                    |
-      |                                  ********                                                                   |
-      |                                  ********                                                                   |
-  100 +-+                                ********                                                                 +-+
-      |                                  ********                                                                   |
-      |                                  ********                                                                   |
-      |                                **********                                                                   |
-   50 +-+                              **********                                                                 +-+
-      |                               ************                                                                  |
-      |                              **************                                                                 |
-      |                              ***************                                                                |
-      +   +   +   +   +   +   +   +  ****************+   +   +   +   +   +   +   +   +   +  +   +   +   +   +   +   +
-    0 +-+-+---+---+---+---+---+---+********************--+---+---+---+---+---+---+---+---+--+---+---+---+---+---+-+-+
-      10  15  20  25  30  35  40  45 50  55  60  65  70  75  80  85  90  95 100 105 110 11 120 125 130 135 140 145 150
-                                                        Mean Depth
-
-If distrubtion looks normal, a 1.645 sigma cutoff (~90% of the data) would be 5171.64712
-The 95% cutoff would be 64
-Would you like to use a different maximum mean depth cutoff than 64, yes or no
-$ 
-
-output:
-Please enter new cutoff
-$ 
-
-output:
-Number of sites filtered based on maximum mean depth
- 0 of 2136
-
-Number of sites filtered based on within locus depth mismatch
- 0 of 1976
-
-Total number of sites filtered
- 840 of 2816
-
-Remaining sites
- 1976
-
-Filtered VCF file is called Output_prefix.FIL.recode.vcf
-
-Filter stats stored in TRSdp5p05.filterstats
-
-$ vcfallelicprimitives -k -g TRSdp5p05.FIL.recode.vcf |sed 's:\.|\.:\.\/\.:g' > TRSdp5p05F.prim
+Output file (new name prefix).vcf will be filtered by individuals with high percentage of missing data (individuals with low coverage).
 ```
 
-**Removing indels**  
-Indels are ____. 
+**Filter by: mean depth of genotypes and variants with a high percentage of coverage across individuals**
+
+Max-missing is filtering for missing data. 0.95 filters out SNPs that weren't called in 95% or higher of the individuals. The genotype call rate is 95% across all individuals.  
+
+Maf is filtering by minor allele frequency. Allele frequency is the number of times an allele appears over all individuals at that site, divided by the total number of non-missing alleles at that site. 0.05 filters out alleles that do no occur in more than 5% of the individuals.  
+
+min-meanDP filters for sites with mean depth values over all individuals that are greater than or equal to the min-meanDP value. 20 will filter out sites that have a depth values of less than 20.   
 
 ```
-$ vcftools --vcf TRSdp5p05F.prim --recode --recode-INFO-all --remove-indels --out SNP.TRSdp5p05F
+$ vcftools --vcf SNPs_dp3_md.recode.vcf --max-missing 0.95 --maf 0.05 --recode --recode-INFO-all --out SNPs_dp3_md_g95 --min-meanDP 20
 
 output:
-After filtering, kept 80 out of 80 Individuals
+VCFtools - 0.1.17
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf SNPs_dp3_md.recode.vcf
+	--recode-INFO-all
+	--maf 0.05
+	--min-meanDP 20
+	--max-missing 0.95
+	--out SNPs_dp3_md_g95
+	--recode
+
+After filtering, kept 20 out of 20 Individuals
 Outputting VCF file...
-After filtering, kept 1731 out of a possible 2130 Sites
+After filtering, kept 2475 out of a possible 62183 Sites
 Run Time = 1.00 seconds
 ```
 
-**Filter by Hardy-Weinberg Equilibrium**  
-Hardy-Weinberg Equilibrium is ____.
+If you have more than 2 localities, it is best to filter by population call rate. See [dDocent](http://www.ddocent.com/filtering/) for more information on this. *Come back to this for the real analysis.*
+
+To view the header of the vcf file:
 
 ```
-$ filter_hwe_by_pop.pl -v SNP.TRSdp5p05F.recode.vcf -p ../popmap -c 0.5 -out SNP.TRSdp5p05FHWE
+$ mawk '/#/' SNPs_dp3_md_g95.recode.vcf
+
+portion of the output:
+##INFO=<ID=NS,Number=1,Type=Integer,Description="Number of samples with data">
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Total read depth at the locus">
+##INFO=<ID=DPB,Number=1,Type=Float,Description="Total read depth per bp at the locus; bases in reads overlapping / bases in haplotype">
+##INFO=<ID=AC,Number=A,Type=Integer,Description="Total number of alternate alleles in called genotypes">
+##INFO=<ID=AN,Number=1,Type=Integer,Description="Total number of alleles in called genotypes">
+##INFO=<ID=AF,Number=A,Type=Float,Description="Estimated allele frequency in the range (0,1]">
+##INFO=<ID=RO,Number=1,Type=Integer,Description="Reference allele observation count, with partial observations recorded fractionally">
+##INFO=<ID=AO,Number=A,Type=Integer,Description="Alternate allele observations, with partial observations recorded fractionally">
+##INFO=<ID=PRO,Number=1,Type=Float,Description="Reference allele observation count, with partial observations recorded fractionally">
+##INFO=<ID=PAO,Number=A,Type=Float,Description="Alternate allele observations, with partial observations recorded fractionally">
+##INFO=<ID=QR,Number=1,Type=Integer,Description="Reference allele quality sum in phred">
+##INFO=<ID=QA,Number=A,Type=Integer,Description="Alternate allele quality sum in phred">
+##INFO=<ID=PQR,Number=1,Type=Float,Description="Reference allele quality sum in phred for partial observations">
+##INFO=<ID=PQA,Number=A,Type=Float,Description="Alternate allele quality sum in phred for partial observations">
+##INFO=<ID=SRF,Number=1,Type=Integer,Description="Number of reference observations on the forward strand">
+##INFO=<ID=SRR,Number=1,Type=Integer,Description="Number of reference observations on the reverse strand">
+##INFO=<ID=SAF,Number=A,Type=Integer,Description="Number of alternate observations on the forward strand">
+##INFO=<ID=SAR,Number=A,Type=Integer,Description="Number of alternate observations on the reverse strand">
+
+# the above information will help in deciding which filter steps are still needed
+```
+
+**Filter by: allele balance**
+
+Allele balance is the ratio of the reference allele to all reads and only considers heterozygotes. This is a value between 0 and 1. RADseq targets specific locations of the genome so we expect the ratio to be close to 0.5. AB > 0.25 and AB < 0.75 filters out loci with a balance below 25 and above 75. AB < 0.01 will keep loci with fixed variants (homozygotes). 
+
+```
+# to view the options of vcffilter 
+$ vcffilter
+
+portion of the output:
+options:
+    -f, --info-filter     specifies a filter to apply to the info fields of records,
+                          removes alleles which do not pass the filter
+    -g, --genotype-filter specifies a filter to apply to the genotype fields of records
+    -k, --keep-info       used in conjunction with '-g', keeps variant info, but removes genotype
+    -s, --filter-sites    filter entire records, not just alleles
+    -t, --tag-pass        tag vcf records as positively filtered with this tag, print all records
+    -F, --tag-fail        tag vcf records as negatively filtered with this tag, print all records
+    -A, --append-filter   append the existing filter tag, don't just replace it
+    -a, --allele-tag      apply -t on a per-allele basis.  adds or sets the corresponding INFO field tag
+    -v, --invert          inverts the filter, e.g. grep -v
+    -o, --or              use logical OR instead of AND to combine filters
+    -r, --region          specify a region on which to target the filtering, requires a BGZF
+                          compressed file which has been indexed with tabix.  any number of
+                          regions may be specified.
+                          
+
+# to filter by allele balance
+$ vcffilter -s -f "AB > 0.25 & AB < 0.75 | AB < 0.01" SNPs_dp3_md_g95.recode.vcf > SNPs_dp3_md_g95_AB.fil1.vcf
+
+# checking how many loci are in the pre AB-filter vcf 
+$ mawk '!/#/' SNPs_dp3_md_g95.recode.vcf | wc -l
+
+output: 2475
+
+# checking how many loci are in the post AB-filter vcf
+$ mawk '!/#/' SNPs_dp3_md_g95_AB.fil1.vcf | wc -l
+
+output: 1031
+
+```
+`wc -l` counts the number of lines in a file
+
+**Filtering by: reads on both strands**
+
+A SNP should appear in only forward or only reverse reads.
+
+```
+$ vcffilter -f "SAF / SAR > 100 & SRF / SRR > 100 | SAR / SAF > 100 & SRR / SRF > 100" -s SNPs_dp3_md_g95_AB.fil1.vcf > SNPs_dp3_md_g95_AB_BS.fil2.vcf
+
+# checking how many loci are in the post both strand (BS) filter vcf
+$ mawk '!/#/' SNPs_dp3_md_g95_AB_BS.fil2.vcf | wc -l
+
+output: 1024
+```
+This is filtering out loci that have less than 100 times more forward alternate reads than reverse alternate reads. And 100 times more reverse reference reads than forward reference reads. And the reciprocal of both. If the allele is identical to the reference then it is a reference allele, and if it is not then it is an alternate allele. These are likely to be errors in PCR, paralogs, or microbe contamination. 
+
+SAR, SAF, and SRR are strand bias counts. *Can't find what they stand for. Come back to this.*
+
+**Filter by: mapping quality between reference and alternate alleles**
+
+Because RADseq loci and alleles are specific regions of the genome, the mapping quality between reference and alternate should be very similar.
+
+```
+$ vcffilter -f "MQM / MQMR > 0.9 & MQM / MQMR < 1.05" SNPs_dp3_md_g95_AB_BS.fil2.vcf > SNPs_dp3_md_g95_AB_BS_MQ.fil3.vcf
+
+$ mawk '!/#/' SNPs_dp3_md_g95_AB_BS_MQ.fil3.vcf | wc -l
+
+output: 806
+```
+
+**Filter by: properly paired status for reference and alternate alleles**
+
+If the reads supporting the reference allele are properly paired, but the reads supporting the alternate are not, then it becomes a problem.
+
+*Why? What is 0.05, 1.75, 0.25. Come back to this*
+
+```
+$ vcffilter -f "PAIRED > 0.05 & PAIREDR > 0.05 & PAIREDR / PAIRED < 1.75 & PAIREDR / PAIRED > 0.25 | PAIRED < 0.05 & PAIREDR < 0.05" -s SNPs_dp3_md_g95_AB_BS_MQ.fil3.vcf > SNPs_dp3_md_g95_AB_BS_MQ_PP.fil4.vcf
+
+$ mawk '!/#/' SNPs_dp3_md_g95_AB_BS_MQ_PP.fil4.vcf | wc -l
+
+output: 805
+```
+
+**Filter by: ratio of quality score to depth**
+
+In whole genome sequences, high coverage can lead to inflated locus quality scores. See [dDocent](http://www.ddocent.com/filtering/), [Heng Li](http://arxiv.org/pdf/1404.0929.pdf), and [Brad Chapman](http://bcb.io/2014/05/12/wgs-trio-variant-evaluation/) for more information on this. 
+
+dDocent recommends a less conservative model than Heng Li because RADseq loci are not radnomly distributed across contigs. There are two options below: 1.) code line by line 2.) script from dDocent 
+
+Option 1:
+
+```
+## STEP 1
+# to remove a locus with a quality score below 1/4 of the depth
+$ vcffilter -f "QUAL / DP > 0.25" SNPs_dp3_md_g95_AB_BS_MQ_PP.fil4.vcf > SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.vcf
+$ mawk '!/#/' SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.vcf | wc -l
+
+output: 798
+
+## STEP 2
+# Create a list of depths at each locus 
+$ cut -f8 SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.vcf | grep -oe "DP=[0-9]*" | sed -s 's/DP=//g' > SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.DEPTH
+
+# Create a list of quality scores 
+$ mawk '!/#/' SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.vcf | cut -f1,2,6 > SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.vcf.loci.qual
+
+# Calculate mean depth 
+$ mawk '{ sum += $1; n++ } END { if (n > 0) print sum / n; }' SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.DEPTH
+output: 1202.7
+
+# Mean plus 3X the square of the mean
+# the previous mawk output is used twice in the following 
+$ python -c "print int(1202.7+3*(1202.7**0.5))"
+output: 1306
+
+# Paste depth and quality files together, find loci above the cutoff that don't have quality scores 2 times the depth
+# x = the previous python output
+$ paste SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.vcf.loci.qual SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.DEPTH | mawk -v x=1306 '$4 > x' | mawk '$3 < 2 * $4' > SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.lowQDloci
+
+# Remove those sites below the cutoff, recalculate depth across loci
+$ vcftools --vcf SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.vcf --site-depth --exclude-positions SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.lowQDloci --out SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5
 
 output:
-Processing population: PopA (20 inds)
-Processing population: PopB (20 inds)
-Processing population: PopC (20 inds)
-Processing population: PopD (20 inds)
-Outputting results of HWE test for filtered loci to 'filtered.hwe'
-Kept 1731 of a possible 1731 loci (filtered 0 loci)
-```
+After filtering, kept 20 out of 20 Individuals
+Outputting Depth for Each Site
+After filtering, kept 790 out of a possible 798 Sites
+Run Time = 0.00 seconds
 
-**Filter out low minor allele fre	quency (maf) loci** 
- 
+# Creating a file of only depth scores
+$ cut -f3 SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.ldepth > SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.site.depth
+
+# Calculate average depth by diving above file by # of individuals
+$ mawk '!/D/' SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.site.depth | mawk -v x=20 '{print $1/x}' > meandepthpersite
+
+# Plotting this data as a histogram 
+$ gnuplot << \EOF 
+> set terminal dumb size 120, 30
+> set autoscale
+> set xrange [10:150] 
+> unset label
+> set title "Histogram of mean depth per site"
+> set ylabel "Number of Occurrences"
+> set xlabel "Mean Depth"
+> binwidth=1
+> bin(x,width)=width*floor(x/width) + binwidth/2.0
+> set xtics 5
+> plot 'meandepthpersite' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+> pause -1
+> EOF 
+
+output: 
+                                            Histogram of mean depth per site
+
+  40 ++--+---+---+---+---+---+---+---+---+---+---+---+---+---+--+---+---+---+---+---+---+---+---+---+---+---+---+--++
+     +   +   +   +   +   +   +   +   +   +   +   +   +   + 'meandepthpersite' using (bin($1,binwidth)):(1.0)+****** +
+     |                                  **                                                                          |
+  35 ++                           *     **                                                                         ++
+     |                            *     **                                                                          |
+     |                          ***     **                                                                          |
+  30 ++                         ***     **                                                                         ++
+     |                        ***** **  **                                                                          |
+     |                        ***** **  **                                                                          |
+  25 ++                       ***** **  **                                                                         ++
+     |                        ***** **  ****                                                                        |
+  20 ++       **             *********  *****                                                                      ++
+     |        **          *  ****************                                                                       |
+     |        **      **  *******************                                                                       |
+  15 ++       **      **  ********************                                                                     ++
+     |        **      **  ********************                                                                      |
+     |        **      **  ********************  **                                                                  |
+  10 ++       **      ************************ *****         *          *                                          ++
+     |        **      ******************************         *        ***                                           |
+     |        **  *** *******************************      ***        ***                                           |
+   5 ++       ** ** **********************************   * ***  **  * ***                                          ++
+     |        ** ** ************************************** ***  ***** ***                                           |
+     +   +   +***** ********************************** **************************************************************
+   0 ++--+---+*******************************************************************************************************
+     10  15  20  25  30  35  40  45  50  55  60  65  70  75  80 85  90  95 100 105 110 115 120 125 130 135 140 145 150
+                                                       Mean Depth
+
 ```
-$ vcftools --vcf SNP.TRSdp5p05FHWE.recode.vcf --maf 0.05 --recode --recode-INFO-all --out SNP.TRSdp5p05FHWEmaf05
+Loci with high mean depth are likely paralogs or multicopy loci. 
+Removing all loci with a high mean depth above 100:
+
+```
+$ vcftools --vcf  SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.vcf --recode-INFO-all --out SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.FIL --max-meanDP 100 --exclude-positions SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.fil5.lowQDloci --recode 
 
 output:
-VCFtools - 0.1.14
-(C) Adam Auton and Anthony Marcketta 2009
-
-Parameters as interpreted:
-        --vcf SNP.TRSdp5p05FHWE.recode.vcf
-        --recode-INFO-all
-        --maf 0.05
-        --out SNP.TRSdp5p05FHWEmaf05
-        --recode
-
-After filtering, kept 80 out of 80 Individuals
+After filtering, kept 20 out of 20 Individuals
 Outputting VCF file...
-After filtering, kept 941 out of a possible 1731 Sites
+After filtering, kept 740 out of a possible 798 Sites
+Run Time = 0.00 seconds
 ```
+OR  
+Option 2:
+
+```
+$ curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/dDocent_filters
+$ chmod +x dDocent_filters
+$ ./dDocent_filters
+
+This script will automatically filter a FreeBayes generated VCF file using criteria related to site depth,
+quality versus depth, strand representation, allelic balance at heterzygous individuals, and paired read representation.
+The script assumes that loci and individuals with low call rates (or depth) have already been removed.
+
+Contact Jon Puritz (jpuritz@gmail.com) for questions and see script comments for more details on particular filters
+
+$ sh FB_filters.sh (VCF_file) (Output_prefix)
+``` 
+
+**Filter by: Hardy-Weinberg Equilibrium (HWE)**
+
+SNPs with extreme violations of Hardy-Weinberg Equilibrium are likely due to technical artifacts. This filters out sites that have excessive heterozygotes that aren't reflective of real data. We can use a script from dDocent for this.
+
+```
+$ curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/filter_hwe_by_pop.pl
+$ chmod +x filter_hwe_by_pop.pl
+
+# Convert variant calls to SNPs
+# following code decomposes complex variant calls into phased SNP and INDEL genotypes, and keeps the INFO flags for loci and genotypes
+$ vcfallelicprimitives SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.FIL.recode.vcf --keep-info --keep-geno > SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.prim.vcf
+
+# viewing number of SNPs
+$ mawk '!/#/' SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.prim.vcf | wc -l
+
+output: 808
+
+# Removing indels
+$ vcftools --vcf SNPs_dp3_md_g95_AB_BS_MQ_PP_QS.prim.vcf --remove-indels --recode --recode-INFO-all --out SNP.dp3_md_g95_AB_BS_MQ_PP_QS
+
+output:
+After filtering, kept 20 out of 20 Individuals
+Outputting VCF file...
+After filtering, kept 744 out of a possible 808 Sites
+Run Time = 0.00 seconds
+
+# applying HWE filter
+$ ./filter_hwe_by_pop.pl -v SNP.dp3_md_g95_AB_BS_MQ_PP_QS -p ../1mis_Demultiplexed_Data/popmap -o SNP.dp3_md_g95_AB_BS_MQ_PP_QS.HWE -h 0.01
+
+output: 
+
+```
+*Number of SNPs increased?? Come back to this. Also come back to choosing a Hardy-Weinberg value. and cutoff value?*
+
+`-v` is the input file  
+`-o` is the output file  
+`-p` is the popmap file that is an output file from dDocent  
+`-h` is the minimum cutoff for Hardy-Weinberg p-value  
+`-c` is a cuttoff value for the proportion of the population that a locus can be below HWE cutoff without being filtered. 0.5 would filter SNPs that are below the p-value threshold in 50% or more of the populations.
 
 **Rename final SNP vcf file for ease of use**
 

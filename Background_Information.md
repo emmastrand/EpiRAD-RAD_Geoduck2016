@@ -2,23 +2,20 @@
 Author: Emma Strand  
 Last edited: 20190422
 
-##dDocent 
+## RADseq	
+## EpiRADseq
 
-##EpiRADseq
-
-
-
-
-##RADseq
+## dDocent
 
 ## Data File Formats
-###FASTA files
 
-###FASTQ files
+### FASTA files
 
-###SAM/BAM format
+### FASTQ files
 
-###VCF format 
+### SAM/BAM format
+
+### VCF format 
 
 ## Multiqc Results
 Reading a Multiqc report: [Using MultiQC Reports Video](https://www.youtube.com/watch?v=qPbIlO_KWN0).
@@ -40,7 +37,41 @@ M C's = Total number of C's analyzed in millions (using Bismark)
 % Aligned = percentage aligned   
 % Trimmed = percentage of total base pairs trimmed (using CutAdapt)
 
-#### 
+#### Sequence Counts 
+
+![Seq Counts](https://github.com/emmastrand/EpiRAD-RAD_Geoduck2016/blob/master/_images/Seq_counts.png?raw=true)
+
+#### Sequence Quality 
+
+![seq_qual](https://github.com/emmastrand/EpiRAD-RAD_Geoduck2016/blob/master/_images/Seq_quality.png?raw=true)
+
+#### Per Sequence Quality Scores
+
+![per seq quality](https://github.com/emmastrand/EpiRAD-RAD_Geoduck2016/blob/master/_images/per_seq_quality.png?raw=true). 
+
+#### Per Base Sequence Content 
+
+![per base seq](https://github.com/emmastrand/EpiRAD-RAD_Geoduck2016/blob/master/_images/per_base_seq_content.png?raw=true).
+
+#### Per Sequence GC Content 
+
+![per seq GC content](https://github.com/emmastrand/EpiRAD-RAD_Geoduck2016/blob/master/_images/perseq_GC.png?raw=true)
+
+#### Per Base N Content 
+
+![per base N](https://github.com/emmastrand/EpiRAD-RAD_Geoduck2016/blob/master/_images/per_baseN.png?raw=true)
+
+#### Sequence Length Distribution and Sequence Duplication Levels
+
+![seq dup](https://github.com/emmastrand/EpiRAD-RAD_Geoduck2016/blob/master/_images/seq_duplication.png?raw=true)
+
+#### Overrepresented Sequences 
+
+![over seq](https://github.com/emmastrand/EpiRAD-RAD_Geoduck2016/blob/master/_images/overrepresented.png?raw=true)
+
+#### Adapter Content 
+
+![adapter](https://github.com/emmastrand/EpiRAD-RAD_Geoduck2016/blob/master/_images/adapter_content.png?raw=true)
 
 ## Read Mapping
 
