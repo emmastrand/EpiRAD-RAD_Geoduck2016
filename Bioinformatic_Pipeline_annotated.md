@@ -1,7 +1,7 @@
 # *P. generosa* RAD and EpiRADseq Bioinformatic Pipeline Anlaysis
 
 Author: Emma Strand  
-Last Edited: 20190422
+Last Edited: 20190509
 
 Data upload and analyzed on KITT. User logged in before following steps are completed. 
 ## Using Terminal
@@ -1304,12 +1304,18 @@ After filtering, kept 744 out of a possible 808 Sites
 Run Time = 0.00 seconds
 
 # applying HWE filter
-$ ./filter_hwe_by_pop.pl -v SNP.dp3_md_g95_AB_BS_MQ_PP_QS -p ../1mis_Demultiplexed_Data/popmap -o SNP.dp3_md_g95_AB_BS_MQ_PP_QS.HWE -h 0.01
+$ ./filter_hwe_by_pop.pl -v SNP.dp3_md_g95_AB_BS_MQ_PP_QS.recode.vcf -p ../1mis_Demultiplexed_Data/popmap -o SNP.dp3_md_g95_AB_BS_MQ_PP_QS.HWE -h 0.001 -c 0.5
 
 output: 
-
+Processing population: 0amb (4 inds)
+Processing population: 10amb (2 inds)
+Processing population: 10high (2 inds)
+Processing population: 6amb (6 inds)
+Processing population: 6high (6 inds)
+Outputting results of HWE test for filtered loci to 'filtered.hwe'
+Kept 744 of a possible 744 loci (filtered 0 loci)
 ```
-*Number of SNPs increased?? Come back to this. Also come back to choosing a Hardy-Weinberg value. and cutoff value?*
+*Number of SNPs increased?? Come back to this. Also come back to choosing a Hardy-Weinberg value. and cutoff value? And if treating dd and Epi as individuals within a population will mess with this.*
 
 `-v` is the input file  
 `-o` is the output file  
@@ -1320,23 +1326,54 @@ output:
 **Rename final SNP vcf file for ease of use**
 
 ```
-$ SNP.TRSdp5p05FHWE.recode.vcf final_SNPs.vcf
+$ mv SNP.dp3_md_g95_AB_BS_MQ_PP_QS.HWE.recode.vcf final_SNPs.vcf
 ```
 
 
 ### Subtracting RADseq reads from EpiRADseq reads 
 
-**Separating Epi and ddRAD into two .vcf files**
+I was struggling to find the right code for this part. But I know I need to separate my final_SNPs.vcf file into an EpiRAD vcf file and a RAD vcf file. Then I need to generate a list of loci that had zero reads in the ddRAD cov.stat file and then remove those loci from the EpiRAD vcf file.
+
+I was going to try to follow Jay Dimond's example:
 
 ```
-```
+##################################################################
+## This script reads in a text file derived from the "Base Counts"
+## .vcf output from ipyrad. Base counts are used for analysis of 
+## EpiRADseq data.
 
-**Identifying loci with 0 reads in ddRAD set** 
+# Read in data file
+data <- read.delim("data3-2.txt", header=FALSE)
+# Since the base counts were split into four columns, these need 
+# to be summed
+data2 <- t(sapply(seq(4,ncol(data), by=4), function(i) {
+     indx <- i:(i+3)
+     rowSums(data[indx[indx <= ncol(data)]])}))
 
-```
-```
+#The resulting file needs to be transposed and turned into a dataframe
+data3 <- as.data.frame(t(data2))
+#Add column with locus number (CHROM from .vcf file)
+locus <- data[,1]
+row.names(data3) <- locus
+#Add header names
+header <- read.delim("header_data3.txt", header=FALSE)
+names <- as.vector(t(header))
+colnames(data3) <- names
+#Select samples of interest (some have very low sample sizes)
+data4 <- data3[,c(3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
+                  24,25,26,27,28,29,30,31,32,33,35,36,37,38,39,40,
+                  41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56)]
 
-**Removing those loci from EpiRAD set**
+#Remove ddr rows that have any zeros. The premise here is that zeros 
+#in the EpiRAD dataset are informative because they may reflect 
+#methylation, but they could also relfect true absence of the locus
+#in the library. Here the ddRAD library serves to standarize the EpiRAD
+#library. Any zeros in the ddRAD libary are treated as absence of the
+#locus, thereby leaving zeros in the EpiRAD library only where the 
+#locus was counted in the ddRAD library.
 
-```
+data5 <- data4[apply(data4[c(1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,
+                             31,33,35,37,39,41,43,45,47,49)],1,
+                     function(z) !any(z==0)),] 
+
 ```
